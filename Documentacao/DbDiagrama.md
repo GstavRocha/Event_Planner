@@ -17,7 +17,7 @@ erDiagram
         int idEvento
         varchar nomeEvento
         varchar descricaoEvento
-        decimal(10,2) ingresso
+        decimal ingresso
         varchar endereco
         int vagas
         date dia
