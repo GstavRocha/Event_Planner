@@ -19,7 +19,9 @@ create table tbEvento(
 create table tbEventoParticipantes(
     idEventoParticipantes int auto_increment not null primary key,
     idEvento int not null,
-    idPromotorUsuario int not null comment 'retorna o idUsuario tabela Usuario, enum Cr',
-    idParticipanteUsuario int not null comment 'retorna o idUsuario tabela Usuario enum Pr',
+    idPromotorUsuario int comment 'retorna o idUsuario tabela Usuario, enum Cr',
+    idParticipanteUsuario int comment 'retorna o idUsuario tabela Usuario enum Pr',
     dataInscricao date not null
 );
+drop table tbEventoParticipantes;
+ALTER TABLE tbEventoParticipantes ADD constraint  Fk_idUsuario foreign key (idPromotorUsuario) REFERENCES tbUsuario(idUsuario);
