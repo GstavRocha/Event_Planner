@@ -16,10 +16,14 @@ erDiagram
     tbEvento{
         int idEvento
         varchar nomeEvento
+        varchar descricaoEvento
+        decimal(10,2) ingresso
+        varchar endereco
         int vagas
         date dia
         date mes
         date ano
+        time hora
     }
     tbEventoParticipantes{
         int idEvento
