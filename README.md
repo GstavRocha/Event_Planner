@@ -36,4 +36,4 @@ Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests, 
 
 ## Autores
 
-Este projeto foi desenvolvido por [Alycson Moreira](https://www.linkedin.com/in/alycson-moreira-581b33116/), [Janine Alves](https://www.linkedin.com/in/janinealves04/) e [Gustavo Rocha](https://www.linkedin.com/in/gustavo-rocha-1a0087226/) sob orientação do professor DR .
+Este projeto foi desenvolvido por [Alycson Moreira](https://www.linkedin.com/in/alycson-moreira-581b33116/), [Janine Alves](https://www.linkedin.com/in/janinealves04/) e [Gustavo Rocha](https://www.linkedin.com/in/gustavo-rocha-1a0087226/).
