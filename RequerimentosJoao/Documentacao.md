@@ -37,7 +37,7 @@ perguntas do professor e da turma.
 
 | **ENTREGAS**| checks |
 |-------------|--------|
-|Código Fonte |  |
+|Código Fonte | |
 |Documentação de Código Fonte| |
 |Código Fonte Frontend||
 |Reflexão sobre as stacks||
