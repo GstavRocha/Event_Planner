@@ -1,0 +1,30 @@
+{
+  "name": "eventplanner",
+  "version": "1.0.0",
+  "description": "Api da aplicação Event Planner com endpoints. Usando express.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GstavRocha/Event_Planner.git"
+  },
+  "keywords": [
+    "Event",
+    "Planner",
+    "Api",
+    "ApiRouter",
+    "Express.js",
+    "JavaScript"
+  ],
+  "author": "Gustavo Rocha, Janine Alves, Alycson Moreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GstavRocha/Event_Planner/issues"
+  },
+  "homepage": "https://github.com/GstavRocha/Event_Planner#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
