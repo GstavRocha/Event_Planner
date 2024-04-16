@@ -1,6 +1,6 @@
-CREATE DATABASE gEventos;
+CREATE DATABASE dbEventos;
 
-USE gEventos;
+USE dbEventos;
 
 CREATE TABLE tbUsuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
