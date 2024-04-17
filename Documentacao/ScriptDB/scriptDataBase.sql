@@ -69,4 +69,6 @@ begin
         SELECT 'Você Não tem permissão para criar um evento';
     end if;
 end;
-AINDA ESTOU VERIFICANDO ESSA ROTINA
+alter table tbEventoParticipantes
+    drop foreign key Fk_idUsuario;
+alter table tbEventoParticipantes drop column idPromoveEvento;
