@@ -49,26 +49,56 @@ values
     ( 'Joaoteste', 'Cr', 'teste','senha', 'teste@teste'),
     ('mariateste','Pr','maria','teste','maria@teste');
 select * from tbUsuario;
-create procedure spCriaEvento(in spIdusuario int,
-                              in spDescricao varchar(255),
-                              in spIngresso decimal(10,2),
-                              in spEndereco varchar(150),
-                              in spVagas INT,
-                              in spNomeEvento VARCHAR(50),
+ PŔOCEDURE CORRIGIDA
+create procedure spCriaEvento(in spNomeEvento VARCHAR(50),
+                              in spDescricaoEvento varchar(255),
+                              in spIngresso DECIMAL(10,2),
+                              in spEndereceo varchar(150),
+                              in spVagas int,
                               in spDia DATE,
-                              in spMes DATE,
-                              in spAno Year)
+                              IN spHora TIME,
+                              in spIdUsuario int)
 begin
     declare usuariocria CHAR(2);
     select tipoUsuario INTO usuariocria from tbUsuario where idUsuario = spIdusuario;
     if usuariocria = 'Cr' THEN
-        INSERT INTO tbEvento(nomeEvento, descricaoEvento, ingresso, endereco, vagas, dia, mes, ano)
-            values(spNomeEvento,spDescricao, spIngresso, spEndereco, spVagas, spDia,spMes,spAno);
+        INSERT INTO tbEvento(nomeEvento, descricaoEvento, ingresso, endereco, vagas, dia, hora, idUsuario)
+        VALUES (spNomeEvento, spDescricaoEvento, spIngresso, spEndereceo, spVagas, spDia,spHora, spIdUsuario) ;
         SELECT 'Evento Criado Com Sucesso';
     else
         SELECT 'Você Não tem permissão para criar um evento';
     end if;
 end;
+PARA TESTAR A procedure
+call spCriaEvento('evento teste2', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',1);
+call spCriaEvento('evento teste', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',2);
+
 alter table tbEventoParticipantes
     drop foreign key Fk_idUsuario;
 alter table tbEventoParticipantes drop column idPromoveEvento;
+alter table  tbEvento drop column mes;
+alter table tbEvento drop column ano;
+alter table tbEvento drop column descricao;
+
+GATILHOS
+DELIMITER //
+create trigger tgInsereParticiPante
+    AFTER INSERT ON tbEventoParticipantes for each row
+    begin
+        UPDATE tbEvento set vagas = vagas - 1
+        where idEvento = NEW.idEvento;
+        IF (SELECT vagas From tbEvento where idEvento = new.idEvento)< 0 then
+            signal sqlstate '45000' set message_text = 'Palestra Lotada';
+        end if;
+    end;
+insert into tbEventoParticipantes(idEvento, idParticipanteUsuario) values (2,1)
+alter table tbEventoParticipantes modify column DataInscricao timestamp default CURRENT_TIMESTAMP;
+
+create trigger deletaParticipante AFTER delete on tbEventoParticipantes
+    for each row
+    begin
+        UPDATE tbEvento
+            set vagas = vagas + 1
+        where idEvento = OLD.idEvento;
+    end;
+DELIMITER ;
