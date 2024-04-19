@@ -25,7 +25,7 @@ flowchart TB
     A---A3
     A---A4
     
-    B(APP)
+    B(FrontEnd)
     A0---B
     
     
