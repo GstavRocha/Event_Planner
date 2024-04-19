@@ -19,8 +19,12 @@ CREATE TABLE tbEvento (
     endereco VARCHAR(255) NOT NULL,
     vagas INT NOT NULL,
     dia DATE NOT NULL,
+
     hora TIME,
     idUsuario INT NOT NULL
+
+ 
+
 );
 
 CREATE TABLE tbEventoParticipantes (
@@ -43,6 +47,7 @@ insert tbUsuario( nome, tipoUsuario, login, password, email)
             ('Gustavo','Pr','maria','teste','maria@teste');
 
 select * from tbUsuario;
+
 
 
 /* VIEWS */
@@ -137,11 +142,59 @@ DELIMITER ;
 
 DELIMITER //
 
+ PŔOCEDURES
+
+create procedure spCriaEvento(in spNomeEvento VARCHAR(50),
+                              in spDescricaoEvento varchar(255),
+                              in spIngresso DECIMAL(10,2),
+                              in spEndereceo varchar(150),
+                              in spVagas int,
+                              in spDia DATE,
+                              IN spHora TIME,
+                              in spIdUsuario int)
+begin
+    declare usuariocria CHAR(2);
+    select tipoUsuario INTO usuariocria from tbUsuario where idUsuario = spIdusuario;
+    if usuariocria = 'Cr' THEN
+        INSERT INTO tbEvento(nomeEvento, descricaoEvento, ingresso, endereco, vagas, dia, hora, idUsuario)
+        VALUES (spNomeEvento, spDescricaoEvento, spIngresso, spEndereceo, spVagas, spDia,spHora, spIdUsuario) ;
+        SELECT 'Evento Criado Com Sucesso';
+    else
+        SELECT 'Você Não tem permissão para criar um evento';
+    end if;
+end;
+
+CREATE PROCEDURE spInscricaoEvento(in spIdEvento int, in spIdUsuario int)
+    begin
+        INSERT INTO tbEventoParticipantes(idEvento, idParticipanteUsuario)
+            values (spIdEvento,spIdUsuario);
+        SELECT 'Inscrição feita com sucesso';
+    end;
+
+create procedure spEventoDia ( in spDia DATE)
+begin
+    SELECT * from vwEventoDia ve where ve.dia = spDia;
+end;
+
+create procedure spPromoveEventos(in spNome varchar(50))
+begin
+    SELECT tU.nome, tE.nomeEvento,tE.descricaoEvento, tE.ingresso,tE.dia, tE.hora, tE.vagas  from tbEvento tE
+        inner join tbUsuario tU on tE.idUsuario = tU.idUsuario where tU.nome like concat('%',spNome,'%');
+end;
+create procedure spListaParticipantesEvento(in spNomeEvento varchar(50))
+begin
+    select te.nomeEvento,tu.nome, tu.email from tbEventoParticipantes tp
+    inner join tbUsuario tu on tp.idParticipanteUsuario = tu.idUsuario
+    inner join tbEvento te on tp.idEvento = te.idEvento where te.nomeEvento like concat('%',spNomeEvento,'%');
+end;
+
+
 create procedure spEventoPesquisaParticipante(in spNomeParticipante varchar(50))
 begin
     select te.nomeEvento,te.dia, te.hora, tu.nome, tu.email,tp.DataInscricao from tbEventoParticipantes tp
     inner join tbUsuario tu on tp.idParticipanteUsuario = tu.idUsuario
     inner join tbEvento te on tp.idEvento = te.idEvento where tu.nome like concat('%',spNomeParticipante,'%');
+
 end //
 
 DELIMITER ;
@@ -156,6 +209,26 @@ call spInscricaoEvento(2,4);
 
 
 /* GATILHOS */
+
+end;
+
+PARA TESTAR AS PROCEDURES
+call spCriaEvento('evento teste2', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',1);
+call spCriaEvento('evento teste', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',2);
+call spInscricaoEvento(4,3);
+
+ALTERAÇÕES NA TABELA
+
+alter table tbEventoParticipantes
+    drop foreign key Fk_idUsuario;
+alter table tbEventoParticipantes drop column idPromoveEvento;
+alter table  tbEvento drop column mes;
+alter table tbEvento drop column ano;
+alter table tbEvento drop column descricao;
+alter table tbEventoParticipantes modify column DataInscricao timestamp default CURRENT_TIMESTAMP;
+
+GATILHOS
+
 DELIMITER //
 create trigger tgInsereParticiPante
     AFTER INSERT ON tbEventoParticipantes for each row
@@ -175,4 +248,22 @@ create trigger deletaParticipante AFTER delete on tbEventoParticipantes
     end;
 DELIMITER ;
 
-insert into tbEventoParticipantes(idEvento, idParticipanteUsuario) values (2,1);
+
+
+
+insert into tbEventoParticipantes(idEvento, idParticipanteUsuario) values (2,1)
+
+VIEWS
+create view vwParticipanteEvento as
+SELECT us.nome,tE.nomeEvento,tE.dia,tE.hora from tbEventoParticipantes ep
+inner join tbEvento tE on ep.idEvento = tE.idEvento
+inner join tbUsuario us on ep.idParticipanteUsuario = us.idUsuario;
+
+create view vwPromoveEvento as
+select tU.nome,tE.nomeEvento,tE.descricaoEvento , tE.dia, tE.hora, tE.vagas from tbEvento tE
+inner join tbUsuario tU on tE.idUsuario = tU.idUsuario;
+
+create view vwEventoDia as
+       SELECT te.nomeEvento, te.descricaoEvento ,te.ingresso,te.dia,te.hora from tbEvento te;
+
+
