@@ -1,4 +1,4 @@
-/* back banco de dados*/
+/* back banco de dados DbEvents*/
 create database dbEvent;
 use dbEvent;
 create table if not exists tbUsuario
