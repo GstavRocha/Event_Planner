@@ -1,5 +1,7 @@
+const express = require('express');
 const db = require('../../Config/connetDb.js');
-const assert = require('express-validator');
+const {query} = require('express-validator');
+const app = express();
 
 const getEventos = async function(req, res, next) {
     try{
