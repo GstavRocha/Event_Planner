@@ -4,7 +4,8 @@
   "description": "Api da aplicação Event Planner com endpoints. Usando express.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,9 @@
   },
   "homepage": "https://github.com/GstavRocha/Event_Planner#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^3.1.0"
   }
 }

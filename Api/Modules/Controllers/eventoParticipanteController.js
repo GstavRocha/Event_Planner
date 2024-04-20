@@ -1,26 +1,21 @@
 const db = require('../../Config/connetDb.js')
 const util = require('./util.js');
+
 const EventoParticipantes = () =>{
-    let sql = `SELECT * FROM tbEventoParticipantes;`;
-    db.query(sql, function(err, result){
-      const evento = result[0].idEvento;
-      const participante = result[0].idParticipanteUsuario;
-      let sql3 = `SELECT * FROM tbEventoParticipantes WHERE idParticipanteUsuario = ${participante};`;
-      util(sql3); 
-    })
-
+    let sql = `SELECT * FROM vwParticipanteEvento;`;
+    util(sql);
 }
-const DeletaParticipante =(participante)=>{
-    let sql = `DELETE FROM tbEventoParticipantes WHERE idParticipanteUsuario = ${participante};`;
-    util(sql)
-// FALTA VERIFICAR A TRIGGER TA ATRAPALHANDO
-    let sqlTbEvento = `SELECT * FROM tbEvento`
-    db.query(sqlTbEvento, function(err, result){
-        let evento = result[0].idEvento;
-        let sqlsoma = `UPDATE tbEvento SET vagas = vagas + 1 WHERE idEvento = ${evento};`;
-        util(sqlsoma)
-    })
-
+const ListaParticipantes = (nomeEvento) =>{
+    let sql = `CALL spListaParticipantesEvento("${nomeEvento}");`;
+    util(sql);
 }
-DeletaParticipante(8);
-// EventoParticipantes();
+const InscricaoEvento = (novoIdEvento, novoIdUsuario) =>{
+    let sql = `CALL spInscricaoEvento(${novoIdEvento},${novoIdUsuario});`;
+    util(sql);
+}
+const DeletaParticipante =(idUsuario,idParticipante,idEvento)=>{
+    let sql = `CALL spDeletaParticipante(${idUsuario},${idParticipante},${idEvento});`;
+    util(sql);
+}
+module.exports = EventoParticipantes, ListaParticipantes,InscricaoEvento,DeletaParticipante;
+
