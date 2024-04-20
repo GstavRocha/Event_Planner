@@ -1,7 +1,7 @@
 /* back banco de dados DbEvents*/
 create database dbEvent;
 use dbEvent;
-create table if not exists tbUsuario
+create table tbUsuario
 (
     idUsuario   int auto_increment
         primary key,
@@ -12,7 +12,7 @@ create table if not exists tbUsuario
     email       varchar(60)       not null
 );
 
-create table if not exists tbEvento
+create table tbEvento
 (
     idEvento        int auto_increment
         primary key,
@@ -28,7 +28,16 @@ create table if not exists tbEvento
         foreign key (idUsuario) references tbUsuario (idUsuario)
 );
 
-create table if not exists tbEventoParticipantes 
+create definer = root@localhost trigger trDeletaEvento
+    before delete
+    on tbEvento
+    for each row
+BEGIN
+    -- Deleta os registros na tabela tbEventoParticipantes que correspondem ao evento sendo deletado
+    DELETE FROM tbEventoParticipantes WHERE idEvento = OLD.idEvento;
+END;
+
+create table tbEventoParticipantes
 (
     idEventoParticipante  int auto_increment
         primary key,
@@ -40,16 +49,6 @@ create table if not exists tbEventoParticipantes
     constraint Fk_idParticipanteUsuario
         foreign key (idParticipanteUsuario) references tbUsuario (idUsuario)
 );
-
-create definer = root@localhost trigger deletaParticipante
-    after delete
-    on tbEventoParticipantes
-    for each row
-begin
-        UPDATE tbEvento
-            set vagas = vagas + 1
-        where idEvento = OLD.idEvento;
-    end;
 
 create definer = root@localhost trigger tgInsereParticiPante
     after insert
@@ -63,7 +62,16 @@ begin
         end if;
     end;
 
-create or replace definer = root@localhost view vwEventoDia as
+create definer = root@localhost trigger trDeletaUsuario
+    before delete
+    on tbUsuario
+    for each row
+BEGIN
+    DELETE FROM tbEventoParticipantes WHERE idParticipanteUsuario = OLD.idUsuario;
+    DELETE FROM tbEvento WHERE idUsuario = OLD.idUsuario;
+END;
+
+create definer = root@localhost view vwEventoDia as
 select `te`.`nomeEvento`      AS `nomeEvento`,
        `te`.`descricaoEvento` AS `descricaoEvento`,
        `te`.`ingresso`        AS `ingresso`,
@@ -71,13 +79,13 @@ select `te`.`nomeEvento`      AS `nomeEvento`,
        `te`.`hora`            AS `hora`
 from `dbEvent`.`tbEvento` `te`;
 
-create or replace definer = root@localhost view vwParticipanteEvento as
-select `us`.`nome` AS `nome`, `tE`.`nomeEvento` AS `nomeEvento`, `tE`.`dia` AS `dia`, `tE`.`hora` AS `hora`
+create definer = root@localhost view vwParticipanteEvento as
+select `us`.`nome` AS `nome`, `tE`.`nomeEvento` AS `nomeEvento`, `ep`.`DataInscricao` AS `DataInscricao`
 from ((`dbEvent`.`tbEventoParticipantes` `ep` join `dbEvent`.`tbEvento` `tE`
        on ((`ep`.`idEvento` = `tE`.`idEvento`))) join `dbEvent`.`tbUsuario` `us`
       on ((`ep`.`idParticipanteUsuario` = `us`.`idUsuario`)));
 
-create or replace definer = root@localhost view vwPromoveEvento as
+create definer = root@localhost view vwPromoveEvento as
 select `tU`.`nome`            AS `nome`,
        `tE`.`nomeEvento`      AS `nomeEvento`,
        `tE`.`descricaoEvento` AS `descricaoEvento`,
@@ -103,8 +111,117 @@ begin
 end;
 
 create
-    definer = root@localhost procedure spEventoDia(IN spDia date)
+    definer = root@localhost procedure spCriarUsuario(IN spNome varchar(50), IN spTipoUsuario enum ('Cr', 'Pr'),
+                                                      IN spLogin varchar(50), IN spSenha varchar(30),
+                                                      IN spEmail varchar(60))
+BEGIN
+    DECLARE nomeVerifica INT;
+    DECLARE emailVerifica INT;
+
+
+    SELECT COUNT(*) INTO nomeVerifica FROM tbUsuario WHERE nome = spNome;
+    SELECT COUNT(*) INTO emailVerifica FROM tbUsuario WHERE email = spEmail;
+
+    IF nomeVerifica > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: O nome já está em uso';
+    END IF;
+
+    IF emailVerifica > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: O email já está em uso';
+    END IF;
+
+    INSERT INTO tbUsuario(nome, tipoUsuario, login, password, email)
+    VALUES (spNome, spTipoUsuario, spLogin, spSenha, spEmail);
+
+END;
+
+create
+    definer = root@localhost procedure spDeletaParticipante(IN spIdUsuario int, IN spIdParticipante int, IN spIdEvento int)
 begin
+    declare usuariocria CHAR(2);
+    select tipoUsuario into usuariocria from tbUsuario where idUsuario = spIdUsuario;
+    if usuariocria = 'Cr' then
+        DELETE FROM tbEventoParticipantes where idParticipanteUsuario = spIdParticipante;
+        UPDATE tbEvento set vagas = vagas + 1 where idEvento = spIdEvento;
+        SELECT 'Remoção feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para remover';
+    end if;
+end;
+
+create
+    definer = root@localhost procedure spEditarDescricao(IN spIdUsuario int, IN spIdeEvento int, IN spDescricao varchar(150))
+begin
+    declare editadescricao CHAR(2);
+    select tu.tipoUsuario into editadescricao from tbUsuario tu where idUsuario = spIdUsuario;
+    if editadescricao = 'Cr' then
+        UPDATE tbEvento te SET te.descricaoEvento = spDescricao where te.idEvento = spIdeEvento;
+        SELECT 'Alteração feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para fazer essa operação';
+    end if;
+
+end;
+
+create
+    definer = root@localhost procedure spEditarEndereco(IN spIdUsuario int, IN spIdeEvento int, IN spEndereco varchar(255))
+begin
+    declare editadescricao CHAR(2);
+    select tu.tipoUsuario into editadescricao from tbUsuario tu where idUsuario = spIdUsuario;
+    if editadescricao = 'Cr' then
+        UPDATE tbEvento te SET te.endereco = spEndereco where te.idEvento = spIdeEvento;
+        SELECT 'Alteração feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para fazer essa operação';
+    end if;
+
+end;
+
+create
+    definer = root@localhost procedure spEditarHora(IN spIdUsuario int, IN spIdeEvento int, IN spHora time)
+begin
+    declare editadescricao CHAR(2);
+    select tu.tipoUsuario into editadescricao from tbUsuario tu where idUsuario = spIdUsuario;
+    if editadescricao = 'Cr' then
+        UPDATE tbEvento te SET te.hora = spHora where te.idEvento = spIdeEvento;
+        SELECT 'Alteração feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para fazer essa operação';
+    end if;
+
+end;
+
+create
+    definer = root@localhost procedure spEditarIngresso(IN spIdUsuario int, IN spIdeEvento int, IN spIngresso decimal(10, 2))
+begin
+    declare editadescricao CHAR(2);
+    select tu.tipoUsuario into editadescricao from tbUsuario tu where idUsuario = spIdUsuario;
+    if editadescricao = 'Cr' then
+        UPDATE tbEvento te SET te.ingresso = spIngresso where te.idEvento = spIdeEvento;
+        SELECT 'Alteração feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para fazer essa operação';
+    end if;
+
+end;
+
+create
+    definer = root@localhost procedure spEditarVagas(IN spIdUsuario int, IN spIdeEvento int, IN spVagas int)
+begin
+    declare editadescricao CHAR(2);
+    select tu.tipoUsuario into editadescricao from tbUsuario tu where idUsuario = spIdUsuario;
+    if editadescricao = 'Cr' then
+        UPDATE tbEvento te SET te.vagas = spVagas where te.idEvento = spIdeEvento;
+        SELECT 'Alteração feita com sucesso';
+    else
+        SELECT 'Você não tem permissão para fazer essa operação';
+    end if;
+
+end;
+
+create
+    definer = root@localhost procedure spEventoDia(IN spDia date)
+begin 
     SELECT * from vwEventoDia ve where ve.dia = spDia;
 end;
 
@@ -130,6 +247,12 @@ begin
     select te.nomeEvento,tu.nome, tu.email from tbEventoParticipantes tp
     inner join tbUsuario tu on tp.idParticipanteUsuario = tu.idUsuario
     inner join tbEvento te on tp.idEvento = te.idEvento where te.nomeEvento like concat('%',spNomeEvento,'%');
+end;
+
+create
+    definer = root@localhost procedure spPequisaEvento(IN spNome varchar(50))
+begin
+    SELECT te.nomeEvento,te.vagas ,te.dia, te.hora, te.ingresso FROM tbEvento te WHERE te.nomeEvento LIKE CONCAT('%',spNome,'%');
 end;
 
 create
