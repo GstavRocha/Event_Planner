@@ -1,7 +1,7 @@
 const mysql = require('mysql');	
 const host = 'localhost';	
 const usuario = 'root';	
-const passWord = 'D@nidani1985';	
+const passWord = '';	
 const db = 'dbEvent';	
 const port = 3306;	
 

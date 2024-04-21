@@ -1,6 +1,6 @@
-CREATE DATABASE dbEventPlanner;
+CREATE DATABASE dbEvent;
 
-USE dbEventPlanner;
+USE dbEvent;
 
 CREATE TABLE tbUsuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
