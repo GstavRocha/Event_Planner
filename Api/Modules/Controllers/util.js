@@ -9,7 +9,7 @@ const util = async (params) =>{
             console.log("Requisição Sucess")
             return result;
         })
-        db.end();   
+        /* db.end(); */   
     })
 }
 // obter id evento;

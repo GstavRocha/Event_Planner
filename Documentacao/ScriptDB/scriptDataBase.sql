@@ -1,6 +1,6 @@
-CREATE DATABASE dbEventPlanner;
+CREATE DATABASE dbEvent;
 
-USE dbEventPlanner;
+USE dbEvent;
 
 CREATE TABLE tbUsuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -19,7 +19,6 @@ CREATE TABLE tbEvento (
     endereco VARCHAR(255) NOT NULL,
     vagas INT NOT NULL,
     dia DATE NOT NULL,
-
     hora TIME,
     idUsuario INT NOT NULL
 
@@ -349,34 +348,17 @@ end;
 DELIMITER ;
 
 /* PARA TESTAR AS PROCEDURES */
-CALL spCriaEvento('IVETE SANGALO 3.0 - A FESTA', 'Show da maior cantora do brasil', 414.00, 'Arena das Dunas - Av. Prudente de Morais, 5121 - Lagoa Nova, Natal - RN', 11,'2024-08-31','20:00:00', 2);
-CALL spCriaEvento('IVETE SANGALO 3.0 - A FESTA', 'Show da maior cantora do brasil', 414.00, 'Arena das Dunas - Av. Prudente de Morais, 5121 - Lagoa Nova, Natal - RN', 11,'2024-08-31','20:00:00', 3);
-
+CALL spCriaEvento('IVETE SANGALO 3.0 - A FESTA', 'Show da maior cantora do brasil', 414.00, 'Arena das Dunas - Av. Prudente de Morais, 5121 - Lagoa Nova, Natal - RN', 31375,'2024-08-31','20:00:00', 1);
+CALL spCriaEvento('Jorge Vercillo', 'cantor MPB', 259.00, 'Teatro Riachuelo Av. Nevaldo Rocha, 3775 - Loja 234 3° Piso - Tirol, Natal - RN, 59051-000', 1475,'2024-07-07','20:00:00', 3);
+call spCriaEvento('evento teste2', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',1);
 call spCriaEvento('NATIRUTS', 'Show da maior banda de Reague do brasil',150.00,'Arena das Dunas - Av. Prudente de Morais, 5121 - Lagoa Nova, Natal - RN', 20000,'2024-07-13','21:00', 3);
+
 call spInscricaoEvento(2,2);
 call spInscricaoEvento(2,4);
+call spInscricaoEvento(4,3);
 
 
 /* GATILHOS */
-
-end;
-
-PARA TESTAR AS PROCEDURES
-call spCriaEvento('evento teste2', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',1);
-call spCriaEvento('evento teste', 'teste do evento2',100.00,'rua do teste', 10, '2024-04-10','19:30:10',2);
-call spInscricaoEvento(4,3);
-
-ALTERAÇÕES NA TABELA
-
-alter table tbEventoParticipantes
-    drop foreign key Fk_idUsuario;
-alter table tbEventoParticipantes drop column idPromoveEvento;
-alter table  tbEvento drop column mes;
-alter table tbEvento drop column ano;
-alter table tbEvento drop column descricao;
-alter table tbEventoParticipantes modify column DataInscricao timestamp default CURRENT_TIMESTAMP;
-
-GATILHOS
 
 DELIMITER //
 create trigger tgInsereParticiPante
@@ -390,6 +372,7 @@ create trigger tgInsereParticiPante
     end;
 DELIMITER ;
 DELIMITER //
+
 CREATE TRIGGER delete_eventos before DELETE ON tbUsuario
 FOR EACH ROW
 BEGIN
@@ -398,20 +381,3 @@ BEGIN
 END;
 //
 DELIMITER ;
-
-insert into tbEventoParticipantes(idEvento, idParticipanteUsuario) values (2,1)
-
-VIEWS
-create view vwParticipanteEvento as
-SELECT us.nome,tE.nomeEvento,tE.dia,tE.hora from tbEventoParticipantes ep
-inner join tbEvento tE on ep.idEvento = tE.idEvento
-inner join tbUsuario us on ep.idParticipanteUsuario = us.idUsuario;
-
-create view vwPromoveEvento as
-select tU.nome,tE.nomeEvento,tE.descricaoEvento , tE.dia, tE.hora, tE.vagas from tbEvento tE
-inner join tbUsuario tU on tE.idUsuario = tU.idUsuario;
-
-create view vwEventoDia as
-       SELECT te.nomeEvento, te.descricaoEvento ,te.ingresso,te.dia,te.hora from tbEvento te;
-
-
