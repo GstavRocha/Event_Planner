@@ -1,16 +1,20 @@
-const mysql = require('mysql');	
-const host = 'localhost';	
-const usuario = 'root';	
-const passWord = '';	
-const db = 'dbEvent';	
-const port = 3306;	
+const mysql = require('mysql');
+require('dotenv').config({path:'../.env'});
 
+
+
+const hst = 'localhost';	
+const usr = 'root';	
+const pass = '';	
+const dbase = 'dbEvent';	
+const prt = 3306;	
+// console.log(process.env.LOCALHOST);
 let conectDb = {	
-    host: host,	
-    user: usuario,	
-    password: passWord,	
-    database: db,	
-    port: port	
+    host: hst,	
+    user: usr,	
+    password: pass,	
+    database: dbase,	
+    port: prt	
 };	
 
 let conn;	

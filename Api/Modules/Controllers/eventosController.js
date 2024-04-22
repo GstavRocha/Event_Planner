@@ -4,6 +4,7 @@ const db = require('../../Config/connetDb.js');
 const Eventos= () =>{
     let sql = 'SELECT * FROM tbEvento;';
     util(sql);
+    // db.end();
 };
 
 const PromoveEvento = () =>{
@@ -25,9 +26,10 @@ const CriaEvento = (
     mes, 
     ano, 
     hora,
+    minutos,
     idUsuario
 ) => {
-    let sql = `CALL spCriaEvento("${nome}","${descricao}",${ingresso},"${endereco}",${vagas},"${ano}-${mes}-${dia}","${hora}",${idUsuario})`;
+    let sql = `CALL spCriaEvento("${nome}","${descricao}",${ingresso},"${endereco}",${vagas},"${ano}-${mes}-${dia}","${hora}:${minutos}:00",${idUsuario})`;
     util(sql);;
 }
 const DeletaEvento = (idEvento) =>{

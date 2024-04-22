@@ -1,16 +1,18 @@
 const db = require('../../Config/connetDb');
 
-const util = async (params) =>{
-    db.connect(function(){
-        db.query(params, function(err, result,fields){
-            if(err) throw err;
-            console.log(result);
-            console.error(err);
-            console.log("Requisição Sucess")
-            return result;
-        })
-        /* db.end(); */   
-    })
+const util = (sql) =>{
+    return new Promise((resolve, reject)=>{
+        db.query(sql, function(err, result, fields){
+            if(err){
+                console.error(err);
+                reject(err);
+                return;
+            }
+            const jsonResult = JSON.stringify(result);
+            console.log(jsonResult, 'Success');
+            resolve(result);
+        });
+    });
 }
 // obter id evento;
 // db.query(sqlTbEvento, function(err, result){
@@ -18,6 +20,13 @@ const util = async (params) =>{
 //     let sqlsoma = `UPDATE tbEvento SET vagas = vagas + 1 WHERE idEvento = ${evento};`;
 //     util(sqlsoma)
 // })
+// db.query(sql, function(err, result, fields){
+//     if(err)throw err;
+//     const jsonResult = JSON.stringify(result);
+//     console.log(jsonResult, 'teste');
+//     return result;
+// })
+// db.end();
 
 module.exports = util;
 

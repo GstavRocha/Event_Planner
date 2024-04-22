@@ -5,6 +5,10 @@ const GetTodosUsuarios =()=>{
     let sql = `SELECT tu.nome, tu.login,tu.email FROM tbUsuario tu;`;
     util(sql);
 }
+const logiUsuario = (login, password) =>{
+    let sql = `SELECT nome,password FROM tbUsuario;`;
+    util(sql);
+}
 const CriaUsuario = (nome, tipo, login, password, email) =>{
     let sql = `CALL spCriarUsuario("${nome}","${tipo}","${login}","${password}","${email}");`;
     util(sql);
@@ -21,8 +25,9 @@ const AtualizarLogin = (idUsuario, idEvento,novaDescricao) =>{
     let sql = `CALL spEditarDescricao(${idUsuario},${idEvento},"${novaDescricao}");`;
     util(sql);
 }
-module.exports = GetTodosUsuarios,
+module.exports = {GetTodosUsuarios,
+logiUsuario,
 CriaUsuario,
 AtualizarNome,
 AtualizarLogin,
-AtualizarEmail;
+AtualizarEmail};
