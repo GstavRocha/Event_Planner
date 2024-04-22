@@ -17,5 +17,5 @@ const DeletaParticipante =(idUsuario,idParticipante,idEvento)=>{
     let sql = `CALL spDeletaParticipante(${idUsuario},${idParticipante},${idEvento});`;
     util(sql);
 }
-module.exports = EventoParticipantes, ListaParticipantes,InscricaoEvento,DeletaParticipante;
+module.exports = {EventoParticipantes, ListaParticipantes,InscricaoEvento,DeletaParticipante};
 

@@ -1,3 +1,4 @@
 Api/node_modules/
+.env
 App/node_modules/
 FrontEnd/node_modules/
