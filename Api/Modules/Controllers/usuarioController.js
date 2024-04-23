@@ -2,11 +2,19 @@ const db = require('../../Config/connetDb.js');
 const util = require('./util.js');
 
 const GetTodosUsuarios =()=>{
-    let sql = `SELECT tu.nome, tu.login,tu.email FROM tbUsuario tu;`;
-    util(sql);
+    return new Promise((resolve, reject)=>{
+        let sql = `SELECT tu.idUsuario,tu.nome, tu.login,tu.email FROM tbUsuario tu;`;
+        util(sql,(err, result) =>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        })
+    })
 }
 const logiUsuario = (login, password) =>{
-    let sql = `SELECT nome,password FROM tbUsuario;`;
+    let sql = `SELECT nome,password FROM tbUsuario WHERE nome LIKE;`;
     util(sql);
 }
 const CriaUsuario = (nome, tipo, login, password, email) =>{

@@ -1,19 +1,18 @@
 const db = require('../../Config/connetDb');
 
-const util = (sql) =>{
-    return new Promise((resolve, reject)=>{
-        db.query(sql, function(err, result, fields){
-            if(err){
+const util = (sql) => {
+    return new Promise((resolve, reject) => {
+        db.query(sql, function(err, result, fields) {
+            if (err) {
                 console.error(err);
                 reject(err);
                 return;
             }
             const jsonResult = JSON.stringify(result);
-            console.log(jsonResult, 'Success');
-            resolve(result);
+            resolve(jsonResult);
         });
     });
-}
+};
 // obter id evento;
 // db.query(sqlTbEvento, function(err, result){
 //     let evento = result[0].idEvento;
