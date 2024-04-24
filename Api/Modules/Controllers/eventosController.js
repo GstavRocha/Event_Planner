@@ -3,18 +3,17 @@ const db = require('../../Config/connetDb.js');
 
 const Eventos= () =>{
     let sql = 'SELECT * FROM tbEvento;';
-    util(sql);
-    // db.end();
+    return util(sql);
 };
 
 const PromoveEvento = () =>{
     let sql = 'SELECT * FROM vwPromoveEvento;';
-    util(sql);
+    return util(sql);
 }
 
 const EventoDia = (dia,mes,ano)=> {
     let sqlEventoDia = `CALL spEventoDia("${ano}-${mes}-${dia}")`;
-    util(sqlEventoDia);
+    return util(sqlEventoDia);
 };
 const CriaEvento = (
     nome, 
@@ -30,35 +29,35 @@ const CriaEvento = (
     idUsuario
 ) => {
     let sql = `CALL spCriaEvento("${nome}","${descricao}",${ingresso},"${endereco}",${vagas},"${ano}-${mes}-${dia}","${hora}:${minutos}:00",${idUsuario})`;
-    util(sql);;
+    return util(sql);;
 }
 const DeletaEvento = (idEvento) =>{
     let sql = `DELETE FROM tbEvento WHERE idEvento = ${idEvento};`;
-    util(sql);
+    return util(sql);
 }
 const PesquisaEvento = (nomeEvento) =>{
     let sql = `CALL spPequisaEvento("${nomeEvento}");`;
-    util(sql);
+    return util(sql);
 }
 const EditaDescricao = (idUsuario,idEvento, descricao) =>{
     let sql = `call spEditarDescricao(${idUsuario},${idEvento},"${descricao}");`;
-    util(sql);
+    return util(sql);
 }
 const EditarEndereco = (idUsuario, idEvento, endreco) =>{
     let sql = `CALL spEditarEndereco(${idUsuario},${idEvento},"${endreco}");`;
-    util(sql)
+    return util(sql)
 }
 const EditarHora = (idUsuario,idEvento, hora, minutos) =>{
     let sql = `CALL spEditarHora(${idUsuario},${idEvento},"${hora}:${minutos}:00");`;
-    util(sql) 
+    return util(sql) 
 }
 const EditarIngresso = (idUsuario, idEvento, ingresso) =>{
     let sql = `CALL spEditarIngresso(${idUsuario},${idEvento},${ingresso});`;
-    util(sql);
+    return util(sql);
 }
 const EditarVagas = (idUsuario, idEvento, vagas) =>{
     let sql = `CALL spEditarVagas(${idUsuario},${idEvento},${vagas});`;
-    util(sql);
+    return util(sql);
 }
 
 module.exports = {Eventos, 
