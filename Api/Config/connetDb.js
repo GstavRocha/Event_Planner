@@ -5,7 +5,7 @@ require('dotenv').config({path:'../.env'});
 
 const hst = 'localhost';	
 const usr = 'root';	
-const pass = '';	
+const pass = 'Sua senha';	
 const dbase = 'dbEvent';	
 const prt = 3306;	
 // console.log(process.env.LOCALHOST);

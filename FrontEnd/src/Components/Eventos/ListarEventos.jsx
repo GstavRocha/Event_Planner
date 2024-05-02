@@ -12,7 +12,6 @@ function ListarEventos() {
         try {
             const resposta = await fetch('http://localhost:3000/controllers/eventos');
             const jsonDados = await resposta.json();
-            //console.log(jsonDados);
             setEvento(jsonDados);  
              
         } catch (error) {

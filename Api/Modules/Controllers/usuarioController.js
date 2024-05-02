@@ -3,31 +3,33 @@ const util = require('./util.js');
 
 const GetTodosUsuarios =()=>{
     let sql = `SELECT tu.nome, tu.login,tu.email FROM tbUsuario tu;`;
-    util(sql);
+    return util(sql);
 }
-const logiUsuario = (login, password) =>{
+// usará para fazer o login com jwt
+const loginUsuario = (login, password) =>{
     let sql = `SELECT nome,password FROM tbUsuario;`;
-    util(sql);
+    return util(sql);
 }
 const CriaUsuario = (nome, tipo, login, password, email) =>{
     let sql = `CALL spCriarUsuario("${nome}","${tipo}","${login}","${password}","${email}");`;
-    util(sql);
+    return util(sql);
 }
 const AtualizarNome = (nomeNovo, idUsuario) => {
     let sql = `UPDATE tbUsuario SET nome = '${nomeNovo}' WHERE idUsuario = ${idUsuario};`;
-    util(sql);
+    return util(sql);
 }
 const AtualizarEmail = (novoEmail, idUsuario) =>{
     let sql = `UPDATE tbUsuario SET email = '${novoEmail}' WHERE idUsuario = ${idUsuario};`;
-    util(sql);
+    return util(sql);
 }
-const AtualizarLogin = (idUsuario, idEvento,novaDescricao) =>{
-    let sql = `CALL spEditarDescricao(${idUsuario},${idEvento},"${novaDescricao}");`;
-    util(sql);
+const AtualizarLogin = (novoLogin,idUsuario) =>{
+    let sql = `UPDATE tbUsuario SET login = '${novoLogin}' WHERE idUsuario = ${idUsuario};`;
+    return util(sql)
 }
 module.exports = {GetTodosUsuarios,
-logiUsuario,
+loginUsuario,
 CriaUsuario,
 AtualizarNome,
 AtualizarLogin,
 AtualizarEmail};
+
