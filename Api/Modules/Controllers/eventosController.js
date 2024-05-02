@@ -59,7 +59,6 @@ const EditarVagas = (idUsuario, idEvento, vagas) =>{
     let sql = `CALL spEditarVagas(${idUsuario},${idEvento},${vagas});`;
     return util(sql);
 }
-
 module.exports = {Eventos, 
 EventoDia, 
 PromoveEvento, 

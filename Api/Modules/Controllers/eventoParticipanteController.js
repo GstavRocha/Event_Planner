@@ -3,19 +3,19 @@ const util = require('./util.js');
 
 const EventoParticipantes = () =>{
     let sql = `SELECT * FROM vwParticipanteEvento;`;
-    util(sql);
+    return util(sql);
 }
 const ListaParticipantes = (nomeEvento) =>{
     let sql = `CALL spListaParticipantesEvento("${nomeEvento}");`;
-    util(sql);
+    return util(sql);
 }
-const InscricaoEvento = (novoIdEvento, novoIdUsuario) =>{
-    let sql = `CALL spInscricaoEvento(${novoIdEvento},${novoIdUsuario});`;
-    util(sql);
+const InscricaoEvento = (idEvento, idUsuario) =>{
+    let sql = `CALL spInscricaoEvento(${idEvento},${idUsuario});`;
+    return util(sql);
 }
 const DeletaParticipante =(idUsuario,idParticipante,idEvento)=>{
     let sql = `CALL spDeletaParticipante(${idUsuario},${idParticipante},${idEvento});`;
-    util(sql);
+    return util(sql);
 }
 module.exports = {EventoParticipantes, ListaParticipantes,InscricaoEvento,DeletaParticipante};
 
