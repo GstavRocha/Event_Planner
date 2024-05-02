@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div>
-      <h1>Event Planner</h1>
+      <h1 class="text-center">Event Planner</h1>
     </div>
   )
 }
