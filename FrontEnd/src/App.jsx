@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useState } from "react";
+import NavBar from "./Components/NavBar";
+import ListarEventos from "./Components/Eventos/ListarEventos";
 
 function App() {
-  /* const [count, setCount] = useState(0) */
-
-  return (
-    <div>
-      <h1 class="text-center">Event Planner</h1>
-    </div>
-  )
+    return (
+        <>
+            <NavBar/>
+            <ListarEventos/>
+        </>
+    );
 }
 
-export default App
+export default App;
