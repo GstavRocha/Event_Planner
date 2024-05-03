@@ -25,22 +25,28 @@ function ListarEventos() {
     }
 
     return ( 
-        <div>
-            <h2>Lista de Eventos</h2>
-            <ul>
+        <div class=" mt-28 flex justify-center items-center h-auto">
+            <div class="w-full max-w-3xl">
+                <h2 class="text-2xl font-bold mb-4 text-center">Lista de Eventos</h2>
+                <ul>
                 {evento.map(evento => (
-                    <li key={evento.idEvento}>
-                        <h3>{evento.nomeEvento}</h3>
-                        <p><strong>Descrição:</strong> {evento.descricaoEvento} </p>
-                        <p><strong>Local: </strong> {evento.endereco}</p>
-                        <p><strong>Hora:</strong> {evento.hora} </p>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={ () => reservarEvento(evento.idEvento)} >Reservar</button>
+                    <li key={evento.idEvento} class="bg-white shadow-2xl shadow-gray-800 rounded-xl p-4 mb-8">
+                        <div>
+                            <p class="text-lg font-bold mb-2 uppercase">{evento.nomeEvento}</p>
+                            <p><strong>Descrição:</strong> {evento.descricaoEvento} </p>
+                            <p><strong>Local: </strong> {evento.endereco}</p>
+                            <p><strong>Hora:</strong> {evento.hora} </p>
+                        </div>
+                        <div class="flex justify-end">
+                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
+                        </div>
                     </li>
-                    
                 ))}
-            </ul>
+                </ul>
+            </div>
         </div>
     );
 };
+
 
 export default ListarEventos;
