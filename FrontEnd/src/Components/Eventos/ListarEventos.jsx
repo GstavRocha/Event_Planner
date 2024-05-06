@@ -38,7 +38,7 @@ function ListarEventos() {
                             <p><strong>Hora:</strong> {evento.hora} </p>
                         </div>
                         <div class="flex justify-end">
-                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
+                            <button class="bg-roxo hover:bg-oxford-blue text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
                         </div>
                     </li>
                 ))}
