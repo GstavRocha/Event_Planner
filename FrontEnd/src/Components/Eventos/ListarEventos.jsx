@@ -1,44 +1,35 @@
 import React, { useState, useEffect} from 'react';
-import '../../index.css';
+import '../../style.css';
+import fetchGets from '../../Api/UtilRequest';
+import todosEventos from '../../Api/Rotas/RotasEventos';
 
 function ListarEventos() {
     const [evento, setEvento] = useState([]);
 
     useEffect( ()=> {
-        fetchEvento();
-    }, []);
+        fetchGets(todosEventos, setEvento);
+    },[]);
  
-    const fetchEvento = async () => {
-        try {
-            const resposta = await fetch('http://localhost:3000/controllers/eventos');
-            const jsonDados = await resposta.json();
-            setEvento(jsonDados);  
-             
-        } catch (error) {
-            console.log('Erro ao buscar dados', error);  
-        }
-    };
-
     const reservarEvento = (idEvento) => {
 
         console.log(`Evento ${idEvento} reservado com Sucesso`);
     }
 
     return ( 
-        <div class=" mt-28 flex justify-center items-center h-auto">
-            <div class="w-full max-w-3xl">
-                <h2 class="text-2xl font-bold mb-4 text-center">Lista de Eventos</h2>
+        <div className=" mt-28 flex justify-center items-center h-auto">
+            <div className="w-full max-w-3xl">
+                <h2 className="text-2xl font-bold mb-4 text-center">Lista de Eventos</h2>
                 <ul>
                 {evento.map(evento => (
-                    <li key={evento.idEvento} class="bg-white shadow-2xl shadow-gray-800 rounded-xl p-4 mb-8">
+                    <li key={evento.idEvento} className="bg-white shadow-2xl shadow-gray-800 rounded-xl p-4 mb-8">
                         <div>
-                            <p class="text-lg font-bold mb-2 uppercase">{evento.nomeEvento}</p>
+                            <p className="text-lg font-bold mb-2 uppercase">{evento.nomeEvento}</p>
                             <p><strong>Descrição:</strong> {evento.descricaoEvento} </p>
                             <p><strong>Local: </strong> {evento.endereco}</p>
                             <p><strong>Hora:</strong> {evento.hora} </p>
                         </div>
-                        <div class="flex justify-end">
-                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
+                        <div className="flex justify-end">
+                            <button className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-blue-700 duration-300 ... bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
                         </div>
                     </li>
                 ))}

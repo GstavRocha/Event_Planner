@@ -1,4 +1,4 @@
 
-const TodosEventos = `http://localhost:3000/controllers/eventos`;
+export const todosEventos = `controllers/eventos`;
 
-export default TodosEventos;
+export default todosEventos;
