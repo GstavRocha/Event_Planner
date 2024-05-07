@@ -14,18 +14,19 @@ function NavBar() {
       <div class="container mx-auto flex justify-between items-center ">
 
         <a href="#" class="text-white text-3xl font-bold">Event Planner</a>
-        
-        <div class="relative">
-          <input type="text" class="bg-gray-700 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar..." />
-          <button class="absolute inset-y-0 right-0 px-3 py-1 bg-blue-500  hover:bg-blue-700 font-bold  text-white rounded-md">Buscar</button>
+
+        <div className="relative flex items-center">
+          <input type="text" class="bg-gray-700 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Buscar evento..." />
+          <img src="https://icongr.am/octicons/search.svg?size=16&color=fffafa" alt="Ícone de busca" class="absolute right-3 h-6 w-6"  />
         </div>
-        
+
+
         <ul class="flex space-x-6">
           <li class="nav-item">
-            <a href="#" class="text-white">Login</a>
+            <button class="absolute inset-y-3 right-4 px-4 py-1 bg-roxo  hover:bg-oxford-blue text-white rounded-md">Login</button>
           </li>
         </ul>
-        
+
       </div>
     </nav>
   );
