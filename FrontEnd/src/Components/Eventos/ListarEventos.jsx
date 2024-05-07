@@ -28,8 +28,8 @@ function ListarEventos() {
                             <p><strong>Local: </strong> {evento.endereco}</p>
                             <p><strong>Hora:</strong> {evento.hora} </p>
                         </div>
-                        <div class="flex justify-end">
-                            <button class= "transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-blue-700 duration-300 ... bg-blue-500  bg-roxo hover:bg-oxford-blue text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
+                        <div className="flex justify-end">
+                            <button className= "transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  hover:bg-oxford-blue duration-300 ... bg-roxo text-white font-bold py-2 px-4 rounded mt-2 " onClick={() => reservarEvento(evento.idEvento)}>Reservar</button>
                         </div>
                     </li>
                 ))}

@@ -7,8 +7,8 @@ function App() {
     return (
         <>
             <NavBar/>
-            {/* <ListarEventos/> */}
-            <ListarUsuarios/>
+            <ListarEventos/>
+            {/* <ListarUsuarios/> */}
         </>
     );
 }
