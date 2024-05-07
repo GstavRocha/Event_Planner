@@ -9,6 +9,7 @@ const util = (sql) =>{
                 return;
             }
             const jsonResult = JSON.stringify(result);
+            // console.log(result);
             resolve(jsonResult);
         });
     });
