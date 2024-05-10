@@ -12,6 +12,8 @@ const autenticacao = require('./Modules/MiddleWare/usuarioMid.js');
 const port = 3000;
 require('dotenv').config();
 
+require('dotenv').config();
+
 app.use(cors());
 app.get('/',(req, res)=>{
     res.send('Hello World');
