@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/usuarios', async(req, res)=>{
     res.send(await controller.GetTodosUsuarios());
     console.log(res.statusCode);
-})
+});
 router.post('/criausuarios/:n/:t/:l/:p/:e', async(req,res)=>{
     let {params} = util(req);
     let  {n: nome,t: tipo, l:login, p:password, e:email } = params;
@@ -14,7 +14,7 @@ router.post('/criausuarios/:n/:t/:l/:p/:e', async(req,res)=>{
         nome, tipo, login, password, email
     ))
     console.log(res.statusCode)
-})
+});
 router.put('/editnom/:n/:i', async(req, res)=>{
     let {params} = util(req);
     let {n:nome,i:idUsuario} = params;
@@ -22,7 +22,7 @@ router.put('/editnom/:n/:i', async(req, res)=>{
         nome, idUsuario
     ))
     console.log(res.statusCode)
-})
+});
 
 router.put('/editlog/:l/:i', async(req, res)=>{
     let {params} = util(req);
@@ -31,7 +31,7 @@ router.put('/editlog/:l/:i', async(req, res)=>{
         login, idUsuario
     ))
     console.log(res.statusCode)
-})
+});
 router.put('/editem/:e/:i', async(req, res)=>{
     let {params} = util(req);
     let {e: email, i:idUsuario} = params;
@@ -39,6 +39,6 @@ router.put('/editem/:e/:i', async(req, res)=>{
         email, idUsuario
     ))
     console.log(res.statusCode)
-})
+});
 
 module.exports = router;
