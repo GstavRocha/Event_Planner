@@ -1,13 +1,12 @@
 const mysql = require('mysql');
-require('dotenv').config({path:'../.env'});
+const protecao = require('./protection.js')
+require('dotenv').config();
 
-
-
-const hst = 'localhost';	
-const usr = 'root';	
-const pass = '';	
-const dbase = 'dbEvent';	
-const prt = 3306;	
+const hst = protecao.local;
+const usr = protecao.usr;
+const pass = protecao.pass;
+const dbase = protecao.dbacc;
+const prt = protecao.dbprt;
 // console.log(process.env.LOCALHOST);
 let conectDb = {	
     host: hst,	
