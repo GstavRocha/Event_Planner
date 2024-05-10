@@ -6,6 +6,8 @@ const usuariosRoutes = require('./Routes/usuariosRoutes.js');
 const eventoPariticpante = require('./Routes/eventoParicipanteRoute.js')
 const port = 3000;
 
+require('dotenv').config();
+
 app.use(cors());
 app.get('/',(req, res)=>{
     res.send('Hello World');
