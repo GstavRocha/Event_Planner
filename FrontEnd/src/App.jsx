@@ -9,8 +9,9 @@ function App() {
         <>
             <NavBar/>
             <ListarEventos/>
-            <Footer/>
             {/* <ListarUsuarios/> */}
+            <Footer/>
+            
         </>
     );
 }

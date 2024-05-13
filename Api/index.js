@@ -4,7 +4,7 @@ const app = express();
 const eventosRoutes = require('./Routes/eventosRoutes.js');
 const usuariosRoutes = require('./Routes/usuariosRoutes.js');
 const eventoPariticpante = require('./Routes/eventoParicipanteRoute.js');
-const autenticacao = require('./Modules/MiddleWare/usuarioMid.js');
+/* const autenticacao = require('./Modules/MiddleWare/usuarioMid.js'); */
 const port = 3000;
 require('dotenv').config();
 
