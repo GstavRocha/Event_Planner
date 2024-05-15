@@ -6,8 +6,8 @@ const GetTodosUsuarios =()=>{
     return util(sql);
 }
 // usará para fazer o login com jwt
-const loginUsuario = (login) =>{
-    let sql = `SELECT idUsuario,login,password,tipoUsuario FROM tbUsuario WHERE login = "${login}";`;
+const loginUsuario = (login, password) =>{
+    let sql = `SELECT idUsuario,login,password,tipoUsuario FROM tbUsuario WHERE login = "${login}" AND password = "${password}";`;
     return util(sql);
 }
 // Vair para o Middle

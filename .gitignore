@@ -1,4 +1,6 @@
 Api/node_modules/
 .env
+.idea/
+.vscode/
 App/node_modules/
 FrontEnd/node_modules/

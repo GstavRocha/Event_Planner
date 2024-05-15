@@ -6,13 +6,6 @@ const express = require('express');
 const brc = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
-let usuario = 'gustavo';
-let login = 'gugudokara';
-let pass1 = 'pass2';
-let pass2 = 'T1est';
-let tipo = 'Cr';
-let email = 'teste@teste';
 const auth = express.Router();
 
 // const teste = new model('gustavo','gugudokara','T1est','pr').validarSenha();
@@ -25,12 +18,13 @@ auth.get('/login/:l/:p', async(req, res, next) =>{
     res.json(loginResultado);
     console.log(res.statusCode);
 });
-auth.post('/login', async (req,res)=>{
-    const{login, password} = req.body;
-    const check = await controller.loginUsuario(login)
-    if(req.statusCode == 404){
-        console.error('preste atenção', error);
-    }
+auth.post('/login/:l/:p', async (req,res)=>{
+    let {params} = util(req);
+    let {l:login, p:password} = req.params;
+    const check = await controller.loginUsuario(login,password);
+    console.log(check);
+    console.log(res.statusCode);
+    return res.json(check);
 });
 
 module.exports = auth;
