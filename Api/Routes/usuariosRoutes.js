@@ -7,6 +7,11 @@ router.get('/usuarios', async(req, res)=>{
     res.send(await controller.GetTodosUsuarios());
     console.log(res.statusCode);
 });
+router.get('/usuarios/:id', async(req, res)=>{
+    let {params} = util(req);
+    let{id:id} = params;
+    res.send(await controller.tipoUsuario);
+})
 router.post('/criausuarios/:n/:t/:l/:p/:e', async(req,res)=>{
     let {params} = util(req);
     let  {n: nome,t: tipo, l:login, p:password, e:email } = params;

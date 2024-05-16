@@ -19,5 +19,5 @@ app.use('/auth/', auth);
 
 app.use('/mid',autenticacao);
 app.listen(port,()=>{
-    console.log(' Servido online');
+    console.log(' Servido online ->', port);
 })

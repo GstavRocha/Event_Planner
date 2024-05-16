@@ -10,6 +10,7 @@ const util = (sql) =>{
             }
             const jsonResult = JSON.stringify(result);
             // console.log(result);
+            // console.log(fields);
             resolve(jsonResult);
         });
     });

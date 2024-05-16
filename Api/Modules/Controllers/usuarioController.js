@@ -10,6 +10,10 @@ const loginUsuario = (login, password) =>{
     let sql = `SELECT idUsuario,login,password,tipoUsuario FROM tbUsuario WHERE login = "${login}" AND password = "${password}";`;
     return util(sql);
 }
+const tipoUsuario = (idUsuario) =>{
+    let sql = `SELECT idUsuario, login,tipoUsuario password FROM tbUsuario WHERE idUsuario = ${idUsuario};`;
+    return util(sql);
+}
 // Vair para o Middle
 const CriaUsuario = (nome, tipo, login, password, email) =>{
     let sql = `CALL spCriarUsuario("${nome}","${tipo}","${login}","${password}","${email}");`;
@@ -32,5 +36,6 @@ loginUsuario,
 CriaUsuario,
 AtualizarNome,
 AtualizarLogin,
+tipoUsuario,
 AtualizarEmail};
 
