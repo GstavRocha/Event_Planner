@@ -1,7 +1,7 @@
 const extrairParametros = (req) =>{
     let params = req.params;
     // let contador = Object.keys(params).length;
-    console.log(params)
+    // console.log(params)
     return{params};
 
 }

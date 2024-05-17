@@ -7,9 +7,14 @@ const GetTodosUsuarios =()=>{
 }
 // usará para fazer o login com jwt
 const loginUsuario = (login, password) =>{
-    let sql = `SELECT nome,password FROM tbUsuario;`;
+    let sql = `SELECT idUsuario,login,password,tipoUsuario FROM tbUsuario WHERE login = "${login}" AND password = "${password}";`;
     return util(sql);
 }
+const tipoUsuario = (idUsuario) =>{
+    let sql = `SELECT idUsuario, login,tipoUsuario password FROM tbUsuario WHERE idUsuario = ${idUsuario};`;
+    return util(sql);
+}
+// Vair para o Middle
 const CriaUsuario = (nome, tipo, login, password, email) =>{
     let sql = `CALL spCriarUsuario("${nome}","${tipo}","${login}","${password}","${email}");`;
     return util(sql);
@@ -31,5 +36,6 @@ loginUsuario,
 CriaUsuario,
 AtualizarNome,
 AtualizarLogin,
+tipoUsuario,
 AtualizarEmail};
 
