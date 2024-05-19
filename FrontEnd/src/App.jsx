@@ -6,6 +6,7 @@ import NavBar from "./Components/NavBar";
 import ListarEventos from "./Components/Eventos/ListarEventos";
 import Footer from "./Components/Footer";
 import ListarUsuarios from "./Components/Usuarios/ListarUsuarios"
+import Login from "./Components/Login/Login";
 
 function App() {
     
@@ -14,7 +15,8 @@ function App() {
         <BrowserRouter>    
             <Routes>
                 <Route Component={Home} path="/" exact />
-                  
+                <Route Component={Login} path="/login" />
+                
             </Routes>
         </BrowserRouter>
             {/* <NavBar/>

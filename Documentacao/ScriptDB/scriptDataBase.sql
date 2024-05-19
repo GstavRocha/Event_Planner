@@ -222,11 +222,13 @@ begin
 end;
 DELIMITER ;
 
-DELIMITER //
-create procedure spPequisaEvento(in spNome VARCHAR(50))
+DELIMITER $$
+create procedure spPesquisaEvento(in spNome VARCHAR(50))
 begin
     SELECT te.nomeEvento,te.vagas ,te.dia, te.hora, te.ingresso FROM tbEvento te WHERE te.nomeEvento LIKE CONCAT('%',spNome,'%');
-end;
+end $$
+
+DELIMITER ;
 
 CREATE PROCEDURE spCriarUsuario(
     spNome VARCHAR(50),
