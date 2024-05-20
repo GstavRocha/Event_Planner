@@ -36,7 +36,7 @@ const DeletaEvento = (idEvento) =>{
     return util(sql);
 }
 const PesquisaEvento = (nomeEvento) =>{
-    let sql = `CALL spPequisaEvento("${nomeEvento}");`;
+    let sql = `CALL spPesquisaEvento("${nomeEvento}");`;
     return util(sql);
 }
 const EditaDescricao = (idUsuario,idEvento, descricao) =>{
