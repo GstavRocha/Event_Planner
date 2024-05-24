@@ -13,8 +13,7 @@ function NavBar({ pesquisa }) {
   }
 
   return (
-    
-    <nav className="bg-gray-800 py-3 px-24 fixed w-full top-0 left-0">
+    <nav className="bg-oxford-blue py-3 px-24 fixed w-full top-0 left-0">
       <div className="container mx-auto flex justify-between items-center ">
         <a href="#" className="text-white text-3xl font-bold">Event Planner</a>
         
